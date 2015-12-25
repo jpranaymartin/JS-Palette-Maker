@@ -1,4 +1,4 @@
-# JS Palette Generator
+# JS Palette Maker
 
 _Under construction._
 
