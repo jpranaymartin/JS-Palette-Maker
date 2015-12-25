@@ -4,13 +4,26 @@ window.onload = function () {
    * ----------------    Vue Setup
    */
 
-  new Vue( {
+  var vueApp = new Vue( {
     el: '#app',
 
     data: {
       search: '',
-      colors: x11colors
+      primaryColor: '',
+      x11colors: x11colors
     },
+
+    methods: {
+      addPrimaryColor: function(colorStr){
+        this.search = "";
+        this.primaryColor = colorStr;
+      },
+
+      removePrimaryColor: function(colorStr){
+        this.search = "";
+        this.primaryColor = "";
+      }
+    }
   });
 
   /**
@@ -45,5 +58,6 @@ window.onload = function () {
       console.log(file.name);
     }
   };
+
 
 };

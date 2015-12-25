@@ -2,35 +2,58 @@
 
   <head>
     <title>JSColors</title>
+
     <script src="/bower_components/vue/dist/vue.min.js"></script>
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-    <link rel="stylesheet" href="assets/style.css">
     <link rel="stylesheet" href="/bower_components/normalize-css/normalize.css">
+    <link rel="stylesheet" href="assets/style.css">
   </head>
 
   <body id="app" class="container">
-    <h1><span>JS</span>Colors</h1>
+    <h1><span class="blue">JS</span>Colors</h1>
 
     <div class="form">
       <p>
-        Give me a palette based on
+        Create a palette based on
         <span id="dropzone">[this image]</span>
         <input type="file" id="file-input" style="display: none;"><br>
         and make
-        <input v-model="search" class="form-control">
+        <input v-model="search" class="form-control"
+            v-show="primaryColor === ''">
+        <span v-model="primaryColor"
+            v-on:click="removePrimaryColor()"
+            style="color: #{{ primaryColor }};">
+          {{ primaryColor }}
+        </span>
         the primary color.
       </p>
     </div>
 
-    <div class="color-bucket" v-cloak v-show="search != ''">
-      <div class="color-card" v-for="color in colors | filterBy search">
-        <div class="color-swatch" style="background-color: {{ color.hex }}"></div>
-        <div class="color-name">{{ color.name }}</div>
+    <div class="color-bucket" v-cloak v-show="search !== ''">
+      <div class="color-card"
+          v-for="color in x11colors | filterBy search"
+          v-on:click="addPrimaryColor( color.hex )">
+
+        <div class="color-swatch"
+            style="background-color: {{ color.hex }}">
+        </div>
+
+        <div class="color-name">
+          {{ color.name }}
+        </div>
+
       </div>
     </div>
 
     <script src="assets/x11.js"></script>
     <script src="assets/main.js"></script>
   </body>
+
+  <p style="padding-top: 8rem;">
+    Built with <a href="http://vuejs.org" target="_blank">Vue</a> &nbsp;•&nbsp; <a href="http://d3js.org" target="_blank">D3</a> &nbsp;•&nbsp; <a href="http://expressjs.com" target="_blank">Express</a>
+  </p>
+  <p>
+    by <a href="http://jpranaymartin.com" target="_blank">J. Pranay Martin</a>
+  </p>
 
 </html>

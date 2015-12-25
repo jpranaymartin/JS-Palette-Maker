@@ -2,13 +2,19 @@
 html, body {
   font-family: sans-serif;
   background-color: #f9f9f9;
+  font-size: 16px;
+  line-height: 18px;
 }
 
 body {
-  padding: 2rem;
+  padding: 4rem;
 }
 
-h1 span {
+a {
+    text-decoration: none;
+}
+
+.blue {
   color: dodgerblue;
 }
 
