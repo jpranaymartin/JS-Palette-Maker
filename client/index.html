@@ -1,0 +1,36 @@
+<html>
+
+  <head>
+    <title>JSColors</title>
+    <script src="/bower_components/vue/dist/vue.min.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="/bower_components/normalize-css/normalize.css">
+  </head>
+
+  <body id="app" class="container">
+    <h1><span>JS</span>Colors</h1>
+
+    <div class="form">
+      <p>
+        Give me a palette based on
+        <span id="dropzone">[this image]</span>
+        <input type="file" id="file-input" style="display: none;"><br>
+        and make
+        <input v-model="search" class="form-control">
+        the primary color.
+      </p>
+    </div>
+
+    <div class="color-bucket" v-cloak v-show="search != ''">
+      <div class="color-card" v-for="color in colors | filterBy search">
+        <div class="color-swatch" style="background-color: {{ color.hex }}"></div>
+        <div class="color-name">{{ color.name }}</div>
+      </div>
+    </div>
+
+    <script src="assets/x11.js"></script>
+    <script src="assets/main.js"></script>
+  </body>
+
+</html>
