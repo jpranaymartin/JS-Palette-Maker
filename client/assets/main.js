@@ -14,12 +14,13 @@ window.onload = function () {
     el: "#app",
 
     data: {
-      colorCount: "",
-      search: "",
-      primaryColor: "",
-      x11colors: x11colors,
-      imageName: "",
-      image: {}
+      colorCount: "",       // Size of palette
+      search: "",           // x11 search term / hex code (no #)
+        // Colors must always be stored in HEX codes unless in utils
+      primaryColor: "",     // selected base color
+      x11colors: x11colors, // list of all HTML color names
+      imageName: "",        // Image name for display after upload
+      image: {}             // Actual Image file TODO: Look for another home?
     },
 
     methods: {
@@ -28,7 +29,7 @@ window.onload = function () {
         this.primaryColor = colorStr;
       },
 
-      removePrimaryColor: function(colorStr){
+      removePrimaryColor: function(){
         this.search = "";
         this.primaryColor = "";
       }
@@ -51,19 +52,24 @@ window.onload = function () {
   });
 
   $("#go-button").on("click", function( e ) {
-    e.preventDefault();
-    e.stopPropagation();
     var img = new Image;
     img.onload = function() {
-      var palette = colorThief.getPalette(img, Number(vueApp.colorCount) + 1);
-      console.log(palette);
+      var palette = colorThief.getPalette(img, Number(vueApp.colorCount || 8));
+        //.map(colorUtils.rgbToHex);
       URL.revokeObjectURL(img.src);
+      if(vueApp.primaryColor !== "") {
+        palette = colorUtils.translatePalette(palette, colorUtils.hexToRgb(vueApp.primaryColor));
+      }
     };
     img.src = URL.createObjectURL(vueApp.image);
   });
 
+  $("#reset-button").on("click", function( e ) {
+    // KABOOM!
+  });
+
   /**
-   * ----------------    File Upload
+   * ----------------    Get File (click handlers and drop event)
    */
 
   // Click handler to intitiate upload
@@ -75,6 +81,7 @@ window.onload = function () {
       handleImage( this.files[0] );
   });
 
+  // Listeners for drop events with preventDefaults
   var dropzone = document.getElementById("dropzone");
   dropzone.addEventListener("dragenter", dragenter, false);
   dropzone.addEventListener("dragover", dragover, false);
@@ -87,6 +94,7 @@ window.onload = function () {
     handleImage( e.dataTransfer.files[0]);
   }
 
+  // store the image and title data in vueApp
   var handleImage = function ( file ) {
     if(file.type.substr(0, 5) !== "image"){
       throw new Error("Only image files allowed. You entered: " + file.type);

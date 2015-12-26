@@ -15,7 +15,7 @@ h1 {
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 form {
@@ -53,8 +53,22 @@ form {
   color: lightgrey;
   border-bottom: 1px solid black;
 }
-#dropzone:hover, #primaryColor:hover, #go-button{
+
+.color-card:hover,
+#primaryColor:hover,
+#dropzone:hover,
+#reset-button,
+#go-button {
   cursor: pointer;
+}
+
+#go-button{
+  font-weight: bold;
+  width: 48px;
+}
+
+#go-button:hover {
+  color: dodgerblue;
 }
 
 .color-bucket {
