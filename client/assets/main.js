@@ -5,12 +5,13 @@ window.onload = function () {
    */
 
   var vueApp = new Vue( {
-    el: '#app',
+    el: "#app",
 
     data: {
-      search: '',
-      primaryColor: '',
-      x11colors: x11colors
+      search: "",
+      primaryColor: "",
+      x11colors: x11colors,
+      imageName: ""
     },
 
     methods: {
@@ -24,6 +25,21 @@ window.onload = function () {
         this.primaryColor = "";
       }
     }
+  });
+
+  /**
+   * ----------------    Form handlers
+   */
+
+  $("#color-picker-form").on("submit", function( e ) {
+    e.preventDefault();
+    e.stopPropagation();
+    var userInput = $("#form-control").val();
+    if(userInput.substr(0, 1) === "#" || userInput.length > 6){
+      userInput = userInput.slice(-6)
+    }
+    vueApp.search = "";
+    vueApp.primaryColor = userInput;
   });
 
   /**
@@ -55,7 +71,7 @@ window.onload = function () {
     if(file.type.substr(0, 5) !== "image"){
       throw new Error("Only image files allowed. You entered: " + file.type);
     } else {
-      console.log(file.name);
+      vueApp.imageName = file.name;
     }
   };
 

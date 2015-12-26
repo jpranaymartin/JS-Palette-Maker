@@ -10,8 +10,16 @@ body {
   padding: 4rem;
 }
 
+h1 {
+  padding-bottom: 2rem;
+}
+
 a {
     text-decoration: none;
+}
+
+form {
+  display: inline;
 }
 
 .blue {
@@ -23,7 +31,7 @@ a {
   line-height: 48px;
 }
 
-.form-control {
+#form-control {
   border: none;
   outline:none;
   font-size: inherit;
@@ -32,10 +40,19 @@ a {
   text-align: center;
 }
 
+#image-name{
+  color: darkgrey;
+}
+
+::-webkit-input-placeholder { color: lightgrey; }
+:-moz-placeholder { color: lightgrey; }
+::-moz-placeholder { color: lightgrey; }
+:-ms-input-placeholder { color: lightgrey; }
+
 #dropzone {
   color: lightgrey;
 }
-#dropzone:hover{
+#dropzone:hover, #primaryColor:hover{
   cursor: pointer;
 }
 
