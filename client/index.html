@@ -5,6 +5,7 @@
 
     <script src="/bower_components/vue/dist/vue.min.js"></script>
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/d3/d3.min.js"></script>
     <link rel="stylesheet" href="/bower_components/normalize-css/normalize.css">
     <link rel="stylesheet" href="assets/style.css">
   </head>
@@ -16,19 +17,25 @@
 
     <div class="form">
       <div>
-        <span>Create a palette based on</span>
+        <span>Create a </span>
+
+        <!-- Color count input -->
+        <input v-model="colorCount" class="form-control" size="1"
+          placeholder="x">
+
+        <span>color palette based on</span>
 
         <!-- File input -->
-        <span id="dropzone" v-show="imageName === ''">[this image]</span>
-        <span id="image-name" v-show="imageName !== ''">[{{ imageName }}]</span>
+        <span id="dropzone" v-show="imageName === ''">this image</span>
+        <span id="image-name" v-show="imageName !== ''">{{ imageName }}</span>
         <input type="file" id="file-input" style="display: none;"><br>
         <span>and make</span>
 
         <!-- Color name input -->
         <form id="color-picker-form">
-          <input v-model="search" id="form-control"
+          <input v-model="search" id="color-name-input" class="form-control"
             v-show="primaryColor === ''"
-            placeholder="">
+            placeholder="name or hex" size="12">
         </form>
         <span v-model="primaryColor" id="primaryColor"
             v-on:click="removePrimaryColor()"
@@ -38,6 +45,11 @@
 
         <span>the primary color.</span>
       </div>
+      <p
+        v-show="primaryColor !=='' && colorCount !=='' && imageName !== ''"
+        id="go-button">
+        Go!
+      </p>
     </div>
 
     <!-- x11 Colors -->
@@ -58,6 +70,7 @@
     <!-- JS Files -->
     <script src="assets/x11.js"></script>
     <script src="assets/main.js"></script>
+    <script src="assets/color-thief.js"></script>
   </body>
 
   <!-- About -->
@@ -65,9 +78,10 @@
   <p style="padding-top: 8rem;">
     Built with <a href="http://vuejs.org" target="_blank">Vue</a> &nbsp;•&nbsp;
     <a href="http://d3js.org" target="_blank">D3</a> &nbsp;•&nbsp;
+    <a href="https://github.com/lokesh/color-thief" target="_blank">Color Thief</a> &nbsp;•&nbsp;
     <a href="http://expressjs.com" target="_blank">Express</a>
   </p>
   <p> by <a href="http://jpranaymartin.com" target="_blank">J. Pranay Martin</a></p>
-  <style>#forkongithub a{background:#1E90FF;color:#fff;text-decoration:none;font-family:arial,sans-serif;text-align:center;font-weight:bold;padding:5px 40px;font-size:1rem;line-height:2rem;position:relative;transition:0.5s;}#forkongithub a:hover{background:#4169e1;color:#fff;}#forkongithub a::before,#forkongithub a::after{content:"";width:100%;display:block;position:absolute;top:1px;left:0;height:1px;background:#fff;}#forkongithub a::after{bottom:1px;top:auto;}@media screen and (min-width:800px){#forkongithub{position:absolute;display:block;top:0;right:0;width:200px;overflow:hidden;height:200px;z-index:9999;}#forkongithub a{width:200px;position:absolute;top:60px;right:-60px;transform:rotate(45deg);-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);box-shadow:2px 2px 8px rgba(0,0,0,0.4);}}</style><span id="forkongithub"><a href="https://github.com/jpranaymartin/JS-Palette-Maker">Fork me on GitHub</a></span>
+  <style>#forkongithub a{background:#1E90FF;color:#fff;text-decoration:none;font-family:arial,sans-serif;text-align:center;font-weight:bold;padding:5px 40px;font-size:1rem;line-height:2rem;position:relative;transition:0.5s;}#forkongithub a:hover{background:#4169e1;color:#fff;}#forkongithub a::before,#forkongithub a::after{content:"";width:100%;display:block;position:absolute;top:1px;left:0;height:1px;background:#fff;}#forkongithub a::after{bottom:1px;top:auto;}@media screen and (min-width:800px){#forkongithub{position:absolute;display:block;top:0;right:0;width:200px;overflow:hidden;height:200px;z-index:9999;}#forkongithub a{width:200px;position:absolute;top:60px;right:-60px;transform:rotate(45deg);-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);box-shadow:2px 2px 8px rgba(0,0,0,0.4);}}</style><span id="forkongithub"><a href="https://github.com/jpranaymartin/JS-Palette-Maker" target="_blank">Fork me on GitHub</a></span>
 
 </html>

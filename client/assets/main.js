@@ -1,6 +1,12 @@
 window.onload = function () {
 
   /**
+   * ----------------    Setup
+   */
+
+  var colorThief = new ColorThief();
+
+  /**
    * ----------------    Vue Setup
    */
 
@@ -8,10 +14,12 @@ window.onload = function () {
     el: "#app",
 
     data: {
+      colorCount: "",
       search: "",
       primaryColor: "",
       x11colors: x11colors,
-      imageName: ""
+      imageName: "",
+      image: {}
     },
 
     methods: {
@@ -34,12 +42,24 @@ window.onload = function () {
   $("#color-picker-form").on("submit", function( e ) {
     e.preventDefault();
     e.stopPropagation();
-    var userInput = $("#form-control").val();
+    var userInput = $("#color-name-input").val();
     if(userInput.substr(0, 1) === "#" || userInput.length > 6){
       userInput = userInput.slice(-6)
     }
     vueApp.search = "";
     vueApp.primaryColor = userInput;
+  });
+
+  $("#go-button").on("click", function( e ) {
+    e.preventDefault();
+    e.stopPropagation();
+    var img = new Image;
+    img.onload = function() {
+      var palette = colorThief.getPalette(img, Number(vueApp.colorCount) + 1);
+      console.log(palette);
+      URL.revokeObjectURL(img.src);
+    };
+    img.src = URL.createObjectURL(vueApp.image);
   });
 
   /**
@@ -72,6 +92,7 @@ window.onload = function () {
       throw new Error("Only image files allowed. You entered: " + file.type);
     } else {
       vueApp.imageName = file.name;
+      vueApp.image = file;
     }
   };
 

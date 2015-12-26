@@ -31,7 +31,7 @@ form {
   line-height: 48px;
 }
 
-#form-control {
+.form-control {
   border: none;
   outline:none;
   font-size: inherit;
@@ -40,8 +40,8 @@ form {
   text-align: center;
 }
 
-#image-name{
-  color: darkgrey;
+#image-name, #primaryColor{
+  border-bottom: 1px solid black;
 }
 
 ::-webkit-input-placeholder { color: lightgrey; }
@@ -51,8 +51,9 @@ form {
 
 #dropzone {
   color: lightgrey;
+  border-bottom: 1px solid black;
 }
-#dropzone:hover, #primaryColor:hover{
+#dropzone:hover, #primaryColor:hover, #go-button{
   cursor: pointer;
 }
 
