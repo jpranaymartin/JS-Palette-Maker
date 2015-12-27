@@ -3,20 +3,18 @@ window.onload = function () {
   /**
    * ----------------    Setup
    */
-
   var colorThief = new ColorThief();
 
   /**
    * ----------------    Vue Setup
    */
-
   var vueApp = new Vue( {
     el: "#app",
 
     data: {
       colorCount: "",       // Size of palette
       search: "",           // x11 search term / hex code (no #)
-        // Colors must always be stored in HEX codes unless in utils
+      // Colors must always be stored in HEX codes unless in utils
       primaryColor: "",     // selected base color
       x11colors: x11colors, // list of all HTML color names
       imageName: "",        // Image name for display after upload
@@ -39,7 +37,6 @@ window.onload = function () {
   /**
    * ----------------    Form handlers
    */
-
   $("#color-picker-form").on("submit", function( e ) {
     e.preventDefault();
     e.stopPropagation();
@@ -54,24 +51,30 @@ window.onload = function () {
   $("#go-button").on("click", function( e ) {
     var img = new Image;
     img.onload = function() {
+      // Get RGB palette and destroy objectURL from memory
       var palette = colorThief.getPalette(img, Number(vueApp.colorCount || 8));
-        //.map(colorUtils.rgbToHex);
       URL.revokeObjectURL(img.src);
+      // If a primary color is input, transpose the palette
       if(vueApp.primaryColor !== "") {
-        palette = colorUtils.translatePalette(palette, colorUtils.hexToRgb(vueApp.primaryColor));
+        palette = cU.translatePalette(palette, cU.hexToRgb(vueApp.primaryColor));
       }
+      // Initiate palette generation
     };
     img.src = URL.createObjectURL(vueApp.image);
   });
 
   $("#reset-button").on("click", function( e ) {
-    // KABOOM!
+    // KABOOM! - move to vueApp proper when possible
+    vueApp.colorCount = "";
+    vueApp.search = "";
+    vueApp.primaryColor = "";
+    vueApp.imageName = "";
+    vueApp.image = {};
   });
 
   /**
    * ----------------    Get File (click handlers and drop event)
    */
-
   // Click handler to intitiate upload
   $( "#dropzone" ).on( "click", function () {
       $( "#file-input" ).click();
@@ -103,6 +106,12 @@ window.onload = function () {
       vueApp.image = file;
     }
   };
-
-
 };
+
+
+function showColors (palette ){
+  palette.forEach(function(color){
+    $("body").append("<div style='display: inline-block; background-color: rgb("+color[0]+","+color[1]+","+color[2]+"); width: 48px; height: 48px;'></div>")
+  })
+  $("body").append("<br><br><br>");
+}
