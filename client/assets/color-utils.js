@@ -94,7 +94,7 @@ var cU = {
 
     R = Math.round(R * 255); G = Math.round(G * 255); B = Math.round(B * 255);
     return [R, G, B];
-  };
+  },
 
   labToXyz: function(arr) {
     var L = arr[0], a = arr[1], b = arr[2];
@@ -139,6 +139,24 @@ var cU = {
     var a = Math.cos( h * Math.PI / 180 ) * c;
     var b = Math.sin( h * Math.PI / 180 ) * c;
     return [L, a, b];
+  },
+
+  translatePalette: function(arr, newBase) {
+    var newBaseLch = cU.labToLch(cU.xyzToLab(cU.rgbToXyz(newBase)));
+    var arrLch = arr.map(function(color) {
+      return cU.labToLch(cU.xyzToLab(cU.rgbToXyz(color)));
+    });
+    console.log(arrLch);
+    var transforms = arrLch.map(function(lchColor){
+      return lchColor[2] - arrLch[0][2];
+    });
+    console.log(transforms);
+    return arrLch.map(function(lchColor, i) {
+      var newH = newBaseLch[2] + transforms[i];
+      newH = newH > 0 ? newH % 360 : 360 + newH;
+      var newLch = [lchColor[0], lchColor[1], newH];
+      return cU.xyzToRgb(cU.labToXyz(cU.lchToLab(newLch)));
+    });
   },
 
   /**
